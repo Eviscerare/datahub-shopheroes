@@ -1,0 +1,23 @@
+
+.GenericJsonTableHeaderRow {
+	float:left;
+	margin-bottom:15;
+	width:100%;
+}
+
+.GenericJsonTableRow {
+	float:left;
+	margin-bottom:5;
+	width:100%;
+}
+
+.GenericJsonTableCell {
+	margin-right:2;
+	float:left;
+}
+.GenericJsonTableHeaderCell {
+	margin-right:2;
+	float:left;
+}
+.GenericJsonTable {
+}
