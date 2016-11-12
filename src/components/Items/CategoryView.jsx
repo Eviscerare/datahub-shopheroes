@@ -11,9 +11,9 @@ import { Link } from 'react-router';
 //   spell, projectile, ring, pendant, instruments
 // } from './itemNames';
 
-export default ({ params: {category} }) => {
+export default ({ params: {category}, loadData }) => {
   const links = [];
-  createLinks(category, this.props.loadData(category));
+  createLinks(category, loadData(category));
   // switch (category) {
   //   case 'sword': createLinks(category, sword); break;
   //   case 'dagger': createLinks(category, dagger); break;

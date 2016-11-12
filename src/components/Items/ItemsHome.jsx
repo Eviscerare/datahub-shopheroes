@@ -4,10 +4,16 @@
 
 import React from 'react';
 
-export default ({children}) => {
+export default ({children, loadData}) => {
+  console.log('loadData exists: ', loadData);
+  let _children = React.Children.map(children, child => {
+    return React.cloneElement(child, {
+      loadData: loadData
+    });
+  });
   return (
     <div className="items-home">
-      {children}
+      {_children}
     </div>
   )
 }
