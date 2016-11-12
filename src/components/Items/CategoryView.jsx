@@ -47,13 +47,12 @@ export default ({ params: {category}, loadData }) => {
       return (<div className = "category-view">Loading data...</div>);
     }
     itemArray.forEach(item => {
-      const itemName = item.toLowerCase().replace(/ /, '');
+      const itemName = item.itemName.toLowerCase().replace(/ /, '');
       const to = `/items/${itemType}/${itemName}`;
-      const link = <Link className="col-xs-5" key={itemName} to={to}>{item}</Link>;
+      const link = <Link className="col-xs-5" key={item.itemName} to={to}>{item.itemName}</Link>;
       links.push(link);
     });
   }
-
   return (
     <div className="category-view">
       {links}

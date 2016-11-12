@@ -16,7 +16,7 @@ export default () => {
    const categories = [ //Hardly ever changes, shouldn't be an issue to keep the keys hardcoded.
     'Swords', 'Daggers', 'Axes', 'Spears', 'Maces', 'Staves', 'Bows',
     'Guns', 'Armor', 'Vests', 'Helmets', 'Gauntlets', 'Boots',
-    'Clothes', 'Shields', 'Hats', 'Bracers', 'Footweas', 'Remedies',
+    'Clothes', 'Shields', 'Hats', 'Bracers', 'Footwear', 'Remedies',
     'Potions', 'Spells', 'Projectiles', 'Rings', 'Pendants', 'Instruments'
   ];
 

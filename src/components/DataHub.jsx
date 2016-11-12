@@ -45,7 +45,8 @@ export default class DataHub extends Component {
     const arrayLength = entries.length;
     const sheetMap = {};
     for (var i = 0; i < arrayLength; i++) {
-      const title = entries[i].title.$t;
+      var title = entries[i].title.$t;
+      title = title.toLowerCase().replace(/ /, ''); //avoid issues with case or  whitespace.
       var id = entries[i].id.$t;
       const lastSlash = id.lastIndexOf('/');
       id = id.substring(lastSlash + 1, id.length);
@@ -57,21 +58,27 @@ export default class DataHub extends Component {
   //Function that reads the data of a specific sheet from the source, by name. 
   //To be called by any component looking to load data, returns the data if it's loaded, loads it if not.
   loadData(sheetName) {
-    console.log("Loading data for: " + sheetName);
     if (this.state.sheetList == null) {
       console.log("Load sheet called before sheetlist was initialized, cancelling load request.");
       return null;
+    } else {
+      if (this.state.sheetList[sheetName] == null) {
+        console.log("No sheet known for name: "+sheetName);
+        return null;
+      }
     }
-    if (this.state.dataSheets !== null) {
+    if (this.state.dataSheets !== null && this.state.dataSheets[sheetName] != null) {
+      console.log("Returning already loaded data for: "+ sheetName);
       return this.state.dataSheets[sheetName];
     } else {
-      loadDataFromSheet(sheetName, this.initDataFromSheet);
+      console.log("Loading data for: " + sheetName);
+      this.loadDataFromSheet(sheetName, this.initDataFromSheet);
     }
   }
   //Function that uses an http get request to get the contents of the specified sheet, grabbing the key from the props mapping. 
   //Should only be called if setSHeetList has already completed.
   loadDataFromSheet(sheetName, callback) {
-    const sheetId = this.state.sheetList[sheetName];
+    const sheetId = this.state.sheetList[sheetName.toLowerCase().replace(/ /, '')];
     fetch(this.listsheets + this.sourceSheet + '/' + sheetId + '/public/basic?alt=json')
       .then(function (response) {
         return response.text();
@@ -83,7 +90,7 @@ export default class DataHub extends Component {
     const sheet = JSON.parse(sheetsJson);
     const rows = sheet.feed.entry;
     var parsedRows = [];
-    const title = sheet.feed.title.$t;
+    const title = sheet.feed.title.$t.toLowerCase().replace(/ /, '');
     for (var i = 0; i < rows.length; i++) {
       var row = {}
       row.itemName = rows[i].title.$t;
@@ -97,7 +104,7 @@ export default class DataHub extends Component {
     }
     console.log("Placing loaded data on props.datasheets."+title);
     const propsData = {}; //add it to the props under datasheets/<sheetname>
-    propsData[title]=sheetMap;
+    propsData[title]=parsedRows;
     this.setState({dataSheets:propsData});
   }
 
