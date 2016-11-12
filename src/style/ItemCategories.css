@@ -1,0 +1,19 @@
+.item-categories {
+  margin: auto;
+  left: 0;
+  right: 0;
+  width: 700px;
+  height: 700px;
+  text-align: center;
+}
+
+.item-categories .col-xs-2 {
+  padding-top: 55px;
+  width: 140px;
+  height: 140px;
+  border: 1px solid;
+  list-style-type: none;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px dimgrey;
+}
