@@ -7,6 +7,7 @@ export { default as Navbar } from './Nav/Navbar';
 
 export { default as ItemsHome } from './Items/ItemsHome';
 export { default as ItemCategories } from './Items/ItemCategories';
+export { default as CategoryLink } from './Items/CategoryLink';
 export { default as CategoryView } from './Items/CategoryView';
 export { default as ItemView } from './Items/ItemView';
 

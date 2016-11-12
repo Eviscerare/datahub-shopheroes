@@ -9,109 +9,103 @@ import 'whatwg-fetch';
 export default class DataHub extends Component {
   constructor() {
     super();
-    this.worksheets = 'https://spreadsheets.google.com/feeds/worksheets/'; //get list of sheets url
-    this.listsheets = 'https://spreadsheets.google.com/feeds/list/'; //get sheet data url
-    this.sourceSheet = '1HktYmh9zKprS5YrBWMakZKIfKNIa7bV9X7fp_bpaAfM'; //Id of the backend spreadsheet
+    this.sourceSheet = '1HktYmh9zKprS5YrBWMakZKIfKNIa7bV9X7fp_bpaAfM'; // Id of the backend spreadsheet.
+    this.worksheets = 'https://spreadsheets.google.com/feeds/worksheets/'; // Gets list of sheet urls.
+    this.listsheets = 'https://spreadsheets.google.com/feeds/list/'; // Gets individual sheets.
+    this.jsonsheet = '/public/basic?alt=json'; // Suffix for returning a sheet in JSON.
     this.state = {
       sheetList: null,
       dataSheets: null,
     }
-    this.loadSheetList = this.loadSheetList.bind(this); //Bind so items can be used in a callback.
+    this.loadSheetList = this.loadSheetList.bind(this);
     this.setSheetList = this.setSheetList.bind(this);
     this.loadDataFromSheet = this.loadDataFromSheet.bind(this);
     this.initDataFromSheet = this.initDataFromSheet.bind(this);
     this.loadData = this.loadData.bind(this);
   }
 
-  // call initialization functions here
+  // Call initialization functions here.
   componentDidMount() {
-    console.log('Initializing, should only be called once to fetch data for the whole SPA');
-    
-     this.loadSheetList(this.setSheetList);
-  }
-  //Uses an http-get to retrieve a list of sheets on the source spreadsheet, specifies the setSheetList as the callback to deal with the data.
-  loadSheetList(callback) {
-    fetch(this.worksheets + this.sourceSheet + '/public/basic?alt=json')
-      .then(function (response) {
-        return response.text();
-      }).then(callback);
+    console.log('Initializing Data Hub');
+    this.loadSheetList(this.setSheetList);
   }
 
-  //Parses the raw sheet list json data and places it in the props as an object of sheetName:sheetKey parameters.
+  // Uses an http-get to retrieve a list of sheets on the source spreadsheet, specifies the setSheetList as the callback to deal with the data.
+  loadSheetList(callback) {
+    fetch(this.worksheets + this.sourceSheet + this.jsonsheet)
+      .then(response => response.text())
+      .then(callback);
+  }
+
+  // Parses the raw sheet list json data and adds it to state as sheetName:sheetKey.
   setSheetList(sheetsJson) {
-    console.log("Placing the list of spreadsheets on the props.");
+    console.log('Adding spreadsheets to state');
     const sheets = JSON.parse(sheetsJson);
     const entries = sheets.feed.entry;
     const arrayLength = entries.length;
     const sheetMap = {};
-    for (var i = 0; i < arrayLength; i++) {
-      var title = entries[i].title.$t;
-      title = title.toLowerCase().replace(/ /, ''); //avoid issues with case or  whitespace.
-      var id = entries[i].id.$t;
+    entries.forEach(entry => {
+      const title = entry.title.$t.toLowerCase().replace(/ /, '');
+      const id = entry.id.$t;
       const lastSlash = id.lastIndexOf('/');
-      id = id.substring(lastSlash + 1, id.length);
-      sheetMap[title] = id;
-    }
+      sheetMap[title] = id.substring(lastSlash + 1, id.length);
+    });
     this.setState({ sheetList: sheetMap });
   }
 
-  //Function that reads the data of a specific sheet from the source, by name. 
-  //To be called by any component looking to load data, returns the data if it's loaded, loads it if not.
+  // Function that reads the data of a specific sheet from the source, by name.
+  // To be called by any component looking to load data, returns the data if it's loaded, loads it if not.
   loadData(sheetName) {
-    if (this.state.sheetList == null) {
-      console.log("Load sheet called before sheetlist was initialized, cancelling load request.");
+    if (!this.state.sheetList) {
+      console.log('Load sheet called before sheetlist was initialized, cancelling load request.');
       return null;
-    } else {
-      if (this.state.sheetList[sheetName] == null) {
-        console.log("No sheet known for name: "+sheetName);
-        return null;
-      }
     }
-    if (this.state.dataSheets !== null && this.state.dataSheets[sheetName] != null) {
-      console.log("Returning already loaded data for: "+ sheetName);
+    if (!this.state.sheetList[sheetName]) {
+      console.log('No sheet for name: ' + sheetName);
+      return null;
+    }
+    if (this.state.dataSheets && this.state.dataSheets[sheetName]) {
+      console.log('Returning loaded data for: ' + sheetName);
       return this.state.dataSheets[sheetName];
     } else {
       console.log("Loading data for: " + sheetName);
       this.loadDataFromSheet(sheetName, this.initDataFromSheet);
     }
   }
-  //Function that uses an http get request to get the contents of the specified sheet, grabbing the key from the props mapping. 
-  //Should only be called if setSHeetList has already completed.
+
+  // Function that uses an http get request to get the contents of the specified sheet, grabbing the key from state.
+  // Should only be called if setSheetList has already completed.
   loadDataFromSheet(sheetName, callback) {
-    const sheetId = this.state.sheetList[sheetName.toLowerCase().replace(/ /, '')];
-    fetch(this.listsheets + this.sourceSheet + '/' + sheetId + '/public/basic?alt=json')
-      .then(function (response) {
-        return response.text();
-      }).then(callback)
+    const sheetId = this.state.sheetList[sheetName];
+    fetch(this.listsheets + this.sourceSheet + '/' + sheetId + this.jsonsheet)
+      .then(response => response.text())
+      .then(callback);
   }
 
-  //Adds received data from a spreadsheet to the props.
+  // Adds received data from a spreadsheet to the props.
   initDataFromSheet(sheetsJson) {
     const sheet = JSON.parse(sheetsJson);
     const rows = sheet.feed.entry;
-    var parsedRows = [];
+    const parsedRows = [];
     const title = sheet.feed.title.$t.toLowerCase().replace(/ /, '');
-    for (var i = 0; i < rows.length; i++) {
-      var row = {}
-      row.itemName = rows[i].title.$t;
-      const otherCells = rows[i].content.$t;
-      const cells = otherCells.split(',');
-      for (var j = 0; j < cells.length; j++) {
-        const pieces = cells[j].split(":");
-        row[pieces[0]] = pieces[1];
-      }
-      parsedRows[i] = row;
-    }
-    console.log("Placing loaded data on props.datasheets."+title);
-    const propsData = {}; //add it to the props under datasheets/<sheetname>
-    propsData[title]=parsedRows;
-    this.setState({dataSheets:propsData});
+    rows.forEach((row, i) => {
+      const parsedRow = {};
+      parsedRow.itemName = row.title.$t;
+      const cells = row.content.$t.split(',');
+      cells.forEach(cell => {
+        const pieces = cell.split(':');
+        parsedRow[pieces[0]] = pieces[1];
+      });
+      parsedRows[i] = parsedRow;
+    });
+    console.log('Placing loaded data on state: ' + title);
+    const dataSheets = {};
+    dataSheets[title] = parsedRows;
+    this.setState({ dataSheets: dataSheets });
   }
 
-
-
   render() {
-    // clone children components, while adding props to them
+    // Clone children components to add props to them.
     let _children = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         loadData: this.loadData
