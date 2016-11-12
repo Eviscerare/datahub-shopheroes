@@ -9,7 +9,8 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['es2015', 'react'] } },
-      { test: /\.s?css$/, loaders: ['style', 'css', 'sass'] }
+      { test: /\.s?css$/, loaders: ['style', 'css', 'sass'] },
+      { test: /\.png$/, loader: 'file' }
     ]
   },
   resolve: {
