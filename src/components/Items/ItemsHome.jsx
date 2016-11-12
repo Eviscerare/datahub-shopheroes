@@ -5,14 +5,9 @@
 import React from 'react';
 
 export default ({children, loadData}) => {
-  let _children = React.Children.map(children, child => {
-    return React.cloneElement(child, {
-      loadData: loadData
-    });
-  });
   return (
     <div className="items-home">
-      {_children}
+      {React.Children.map(children, child => React.cloneElement(child, { loadData }))}
     </div>
   )
 }

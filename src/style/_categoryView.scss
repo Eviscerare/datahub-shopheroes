@@ -8,9 +8,13 @@
 
 .col-xs-5 {
   margin: 5px;
+  padding-top: 30px;
+  padding-left: 80px;
   width: 365px;
   height: 100px;
-  box-shadow: 2px 2px 2px lightgrey;
-  list-style-type: none;
+  border-radius: 2px;
+  box-shadow: 3px 3px 3px darkgray;
+  color: darkslategrey;
+  font-size: 17px;
   background-color: whitesmoke;
 }

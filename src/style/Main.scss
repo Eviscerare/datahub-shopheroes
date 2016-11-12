@@ -9,5 +9,10 @@
 @import 'testCSS';
 
 body {
+  height: 100%;
+  background-image: url('../assets/background.jpeg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color: #404040;
 }

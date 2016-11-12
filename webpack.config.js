@@ -4,13 +4,14 @@ module.exports = {
   entry: './src/router.jsx',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: 'http://0.0.0.0:8080/'
   },
   module: {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['es2015', 'react'] } },
       { test: /\.s?css$/, loaders: ['style', 'css', 'sass'] },
-      { test: /\.png$/, loader: 'file' }
+      { test: /\.png$|\.jpe?g$/, loader: 'file' }
     ]
   },
   resolve: {

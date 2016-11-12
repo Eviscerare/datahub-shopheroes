@@ -6,7 +6,6 @@ import React from 'react';
 import { CategoryLink } from 'components';
 
 export default () => {
-  const links = [];
   const categories = [
     'Swords', 'Daggers', 'Axes', 'Spears', 'Maces', 'Staves', 'Bows',
     'Guns', 'Armor', 'Vests', 'Helmets', 'Gauntlets', 'Boots',

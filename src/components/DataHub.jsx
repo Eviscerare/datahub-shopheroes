@@ -72,6 +72,25 @@ export default class DataHub extends Component {
       this.loadDataFromSheet(sheetName, this.initDataFromSheet);
     }
   }
+  // loadData(sheetName) {
+  //   return new Promise((resolve, reject) => {
+  //     if (!this.state.sheetList) {
+  //       console.log('Load sheet called before sheetlist was initialized, cancelling load request.');
+  //       reject();
+  //     }
+  //     if (!this.state.sheetList[sheetName]) {
+  //       console.log('No sheet for name: ' + sheetName);
+  //       reject();
+  //     }
+  //     if (this.state.dataSheets && this.state.dataSheets[sheetName]) {
+  //       console.log('Returning loaded data for: ' + sheetName);
+  //       resolve(this.state.dataSheets[sheetName]);
+  //     } else {
+  //       console.log("Loading data for: " + sheetName);
+  //       this.loadDataFromSheet(sheetName, this.initDataFromSheet);
+  //     }
+  //   });
+  // }
 
   // Function that uses an http get request to get the contents of the specified sheet, grabbing the key from state.
   // Should only be called if setSheetList has already completed.
@@ -105,17 +124,10 @@ export default class DataHub extends Component {
   }
 
   render() {
-    // Clone children components to add props to them.
-    let _children = React.Children.map(this.props.children, child => {
-      return React.cloneElement(child, {
-        loadData: this.loadData
-      });
-    });
-
     return (
-      <div>
+      <div className="data-hub">
         <Navbar />
-        {_children}
+        {React.Children.map(this.props.children, child => React.cloneElement(child, { loadData: this.loadData }))}
       </div>
     )
   }
