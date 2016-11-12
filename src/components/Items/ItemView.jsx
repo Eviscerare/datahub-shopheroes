@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ItemView = ({ params: {itemname} }) => {
+export default ({ params: {itemname} }) => {
   return (
     <div className="item-view">
       <ul>
@@ -9,5 +9,3 @@ const ItemView = ({ params: {itemname} }) => {
     </div>
   )
 }
-
-export default ItemView;

@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+/**
+ * React Router ~ Entry point for the app
+ */
+
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, IndexRoute, IndexLink } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import {
   DataHub,
   ItemsHome, ItemCategories, CategoryView, ItemView,
-  WorkersHome, HeroesHome, BuildingsHome
+  WorkersHome,
+  HeroesHome,
+  BuildingsHome,
 } from 'components';
 
-import './style/main.css';
-import './style/TestCSS.css';
-import './style/ItemCategories.css';
+import './style/Main.scss';
 
 ReactDOM.render((
   <Router history={browserHistory}>

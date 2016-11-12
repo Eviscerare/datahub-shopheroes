@@ -1,5 +1,5 @@
 /**
- * Add new components here to easily import them in any other component
+ * Add new components here to easily import them from 'containers'
  */
 
 export { default as DataHub } from './DataHub';

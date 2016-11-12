@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, Link, browserHistory, withRouter } from 'react-router';
-import 'whatwg-fetch'
+/**
+ * Items Home ~ Container for all sub components dealing with items
+ */
 
-class ItemsHome extends Component {
-  render() {
-    return (
-      <div className="items-home">
-        {this.props.children}
-      </div>
-    )
-  }
+import React from 'react';
+
+export default ({children}) => {
+  return (
+    <div className="items-home">
+      {children}
+    </div>
+  )
 }
-
-export default ItemsHome;
 
   // constructor(props) {
   //   super(props);

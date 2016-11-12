@@ -1,29 +1,28 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, Link, browserHistory } from 'react-router';
+/**
+ * Navbar
+ */
 
-class Navbar extends Component {
-  render() {
-    return (
-      <nav className="navbar navbar-default">
-        <div className="container-fluid">
+import React from 'react';
+import { Link } from 'react-router';
 
-          <div className="navbar-header">
-            <div className="navbar-brand">Data Hub</div>
-          </div>
+export default () => {
+  return (
+    <nav className="navbar navbar-inverse">
+      <div className="container-fluid">
 
-          <ul className="nav navbar-nav">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/items">Items</Link></li>
-            <li><Link to="/workers">Workers</Link></li>
-            <li><Link to="/heroes">Heroes</Link></li>
-            <li><Link to="/buildings">Buildings</Link></li>
-          </ul>
-          
+        <div className="navbar-header">
+          <div className="navbar-brand">Data Hub</div>
         </div>
-      </nav>
-    )
-  }
-}
 
-export default Navbar;
+        <ul className="nav navbar-nav">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/items">Items</Link></li>
+          <li><Link to="/workers">Workers</Link></li>
+          <li><Link to="/heroes">Heroes</Link></li>
+          <li><Link to="/buildings">Buildings</Link></li>
+        </ul>
+
+      </div>
+    </nav>
+  )
+}

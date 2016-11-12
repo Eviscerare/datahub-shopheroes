@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, Link, browserHistory } from 'react-router';
+/**
+ * Shop Heroes Data Hub ~ Main Container
+ */
+
+import React from 'react';
 import { Navbar } from 'components';
 
-class DataHub extends Component {
-  render() {
-    return (
-      <div>
-        <Navbar />
-        {this.props.children}
-      </div>
-    )
-  }
+export default ({children}) => {
+  return (
+    <div>
+      <Navbar />
+      {children}
+    </div>
+  )
 }
-
-export default DataHub;

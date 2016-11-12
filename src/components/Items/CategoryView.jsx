@@ -1,3 +1,7 @@
+/**
+ * Category View ~ Container for all items of particular type, ie. swords
+ */
+
 import React from 'react';
 import { Link } from 'react-router';
 import {
@@ -7,7 +11,7 @@ import {
   spell, projectile, ring, pendant, instruments
 } from './itemNames';
 
-const CategoryView = ({ params: {category} }) => {
+export default ({ params: {category} }) => {
   const links = [];
 
   switch (category) {
@@ -55,5 +59,3 @@ const CategoryView = ({ params: {category} }) => {
     </div>
   )
 }
-
-export default CategoryView;

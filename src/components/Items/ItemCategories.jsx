@@ -1,7 +1,11 @@
+/**
+ * Item Categories ~ Category selection page for all the main item types
+ */
+
 import React from 'react';
 import { Link } from 'react-router';
 
-const ItemCategories = () => {
+export default () => {
   const links = [];
   const categories = [
     'Sword', 'Dagger', 'Axe', 'Spear', 'Mace', 'Staff', 'Bow',
@@ -22,5 +26,3 @@ const ItemCategories = () => {
     </div>
   )
 }
-
-export default ItemCategories;

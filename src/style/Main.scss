@@ -1,0 +1,13 @@
+/**
+ * Main sass style file, import all partials here
+ */
+
+@import 'navbar';
+@import 'itemCategories';
+@import 'categoryView';
+@import 'itemView';
+@import 'testCSS';
+
+body {
+  background-color: #404040;
+}
