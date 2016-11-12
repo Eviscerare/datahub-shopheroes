@@ -46,16 +46,14 @@ export default ({ params: {category} }) => {
     itemArray.forEach(item => {
       const itemName = item.toLowerCase().replace(/ /, '');
       const to = `/items/${itemType}/${itemName}`;
-      const link = <li key={itemName}><Link to={to}>{item}</Link></li>;
+      const link = <Link className="col-xs-5" key={itemName} to={to}>{item}</Link>;
       links.push(link);
     });
   }
 
   return (
     <div className="category-view">
-      <ul>
-        {links}
-      </ul>
+      {links}
     </div>
   )
 }
